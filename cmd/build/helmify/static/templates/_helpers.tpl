@@ -32,6 +32,17 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+If namespaceOverride is set, overwrite .Release.Namespace
+*/}}
+{{- define "gatekeeper.namespace" -}}
+{{- if .Values.namespaceOverride -}}
+{{- .Values.namespaceOverride -}}
+{{- else -}}
+{{- .Release.Namespace -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Adds additional pod labels to the common ones
 */}}
 {{- define "gatekeeper.podLabels" -}}
@@ -100,7 +111,7 @@ Output post install webhook probe container entry
     - /certs/ca.crt
     {{- end }}
     - "-v"
-    - "https://gatekeeper-webhook-service.{{ .Release.Namespace }}.svc/v1/admitlabel?timeout=2s"
+    - "https://gatekeeper-webhook-service.{{ template "gatekeeper.namespace" . }}.svc/v1/admitlabel?timeout=2s"
   resources:
   {{- toYaml .Values.postInstall.resources | nindent 4 }}
   securityContext:

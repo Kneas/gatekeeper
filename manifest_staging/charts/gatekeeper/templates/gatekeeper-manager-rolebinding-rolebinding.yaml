@@ -9,7 +9,7 @@ metadata:
     heritage: '{{ .Release.Service }}'
     release: '{{ .Release.Name }}'
   name: gatekeeper-manager-rolebinding
-  namespace: '{{ .Release.Namespace }}'
+  namespace: '{{ template "gatekeeper.namespace" . }}'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -17,5 +17,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gatekeeper-admin
-  namespace: '{{ .Release.Namespace }}'
+  namespace: '{{ template "gatekeeper.namespace" . }}'
 {{- end }}

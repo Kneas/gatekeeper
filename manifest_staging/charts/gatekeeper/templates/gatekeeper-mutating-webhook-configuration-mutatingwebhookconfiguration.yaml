@@ -20,7 +20,7 @@ webhooks:
     {{- else }}
     service:
       name: gatekeeper-webhook-service
-      namespace: '{{ .Release.Namespace }}'
+      namespace: '{{ template "gatekeeper.namespace" . }}'
       path: /v1/mutate
     {{- end }}
   failurePolicy: {{ .Values.mutatingWebhookFailurePolicy }}
@@ -36,7 +36,7 @@ webhooks:
     - key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}
+      - {{ template "gatekeeper.namespace" . }}
     
     {{- range $key, $value := .Values.mutatingWebhookExemptNamespacesLabels}}
     - key: {{ $key }}

@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: gatekeeper-update-namespace-label
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ template "gatekeeper.namespace" . }}
   labels:
     {{- include "gatekeeper.mandatoryLabels" . | nindent 4 }}
     {{- include "gatekeeper.commonLabels" . | nindent 4 }}
@@ -46,7 +46,7 @@ spec:
           args:
             - label
             - ns
-            - {{ .Release.Namespace }}
+            - {{ template "gatekeeper.namespace" . }}
             - admission.gatekeeper.sh/ignore=no-self-managing
             {{- range .Values.postInstall.labelNamespace.podSecurity }}
             - {{ . }}
@@ -94,7 +94,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: gatekeeper-update-namespace-label
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ template "gatekeeper.namespace" . }}
   labels:
     {{- include "gatekeeper.commonLabels" . | nindent 4 }}
     release: {{ .Release.Name }}
@@ -127,7 +127,7 @@ rules:
       - update
       - patch
     resourceNames:
-      - {{ .Release.Namespace }}
+      - {{ template "gatekeeper.namespace" . }}
       {{- range .Values.postInstall.labelNamespace.extraNamespaces }}
       - {{ . }}
       {{- end }}
@@ -156,6 +156,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: gatekeeper-update-namespace-label
-    namespace: {{ .Release.Namespace | quote }}
+    namespace: {{ template "gatekeeper.namespace" . }}
 {{- end }}
 {{- end }}

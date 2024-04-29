@@ -59,7 +59,7 @@ _See [helm 2 to 3](https://helm.sh/docs/topics/v2_v3_migration/) for Helm 2 migr
 
 ## Exempting Namespace
 
-The Helm chart automatically sets the Gatekeeper flag `--exempt-namespace={{ .Release.Namespace }}` in order to exempt
+The Helm chart automatically sets the Gatekeeper flag `--exempt-namespace={{ template "gatekeeper.namespace" . }}` in order to exempt
 the namespace where the chart is installed, and adds the `admission.gatekeeper.sh/ignore` label to the namespace during
 a post-install hook.
 

@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: gatekeeper-delete-webhook-configs
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ template "gatekeeper.namespace" . }}
   labels:
     {{- include "gatekeeper.mandatoryLabels" . | nindent 4 }}
     {{- include "gatekeeper.commonLabels" . | nindent 4 }}
@@ -63,7 +63,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: gatekeeper-delete-webhook-configs
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ template "gatekeeper.namespace" . }}
   labels:
     {{- include "gatekeeper.commonLabels" . | nindent 4 }}
     release: {{ .Release.Name }}
@@ -132,6 +132,6 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: gatekeeper-delete-webhook-configs
-    namespace: {{ .Release.Namespace | quote }}
+    namespace: {{ template "gatekeeper.namespace" . }}
 {{- end }}
 {{- end }}

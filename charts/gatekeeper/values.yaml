@@ -1,3 +1,4 @@
+namespaceOverride: null
 replicas: 3
 revisionHistoryLimit: 10
 auditInterval: 60

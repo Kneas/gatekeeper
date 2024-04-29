@@ -37,7 +37,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: gatekeeper-admin-upgrade-crds
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ template "gatekeeper.namespace" . }}
 roleRef:
   kind: ClusterRole
   name: gatekeeper-admin-upgrade-crds
@@ -52,7 +52,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   name: gatekeeper-admin-upgrade-crds
-  namespace: '{{ .Release.Namespace }}'
+  namespace: {{ template "gatekeeper.namespace" . }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: "hook-succeeded,before-hook-creation"
@@ -62,7 +62,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: gatekeeper-update-crds-hook
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ template "gatekeeper.namespace" . }}
   labels:
     {{- include "gatekeeper.mandatoryLabels" . | nindent 4 }}
     {{- include "gatekeeper.commonLabels" . | nindent 4 }}

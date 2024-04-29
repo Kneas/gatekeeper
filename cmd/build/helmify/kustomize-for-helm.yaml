@@ -81,7 +81,7 @@ spec:
             - --emit-admission-events={{ .Values.emitAdmissionEvents }}
             - --admission-events-involved-namespace={{ .Values.admissionEventsInvolvedNamespace }}
             - --log-level={{ (.Values.controllerManager.logLevel | empty | not) | ternary .Values.controllerManager.logLevel .Values.logLevel }}
-            - --exempt-namespace={{ .Release.Namespace }}
+            - --exempt-namespace={{ template "gatekeeper.namespace" . }}
             - --operation=webhook
             - --enable-external-data={{ .Values.enableExternalData }}
             - --enable-generator-resource-expansion={{ .Values.enableGeneratorResourceExpansion }}

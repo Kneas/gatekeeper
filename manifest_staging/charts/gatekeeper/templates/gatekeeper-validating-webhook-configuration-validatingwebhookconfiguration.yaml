@@ -20,7 +20,7 @@ webhooks:
     {{- else }}
     service:
       name: gatekeeper-webhook-service
-      namespace: '{{ .Release.Namespace }}'
+      namespace: '{{ template "gatekeeper.namespace" . }}'
       path: /v1/admit
     {{- end }}
   failurePolicy: {{ .Values.validatingWebhookFailurePolicy }}
@@ -36,7 +36,7 @@ webhooks:
     - key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}
+      - {{ template "gatekeeper.namespace" . }}
     
     {{- range $key, $value := .Values.validatingWebhookExemptNamespacesLabels}}
     - key: {{ $key }}
@@ -90,7 +90,7 @@ webhooks:
   clientConfig:
     service:
       name: gatekeeper-webhook-service
-      namespace: '{{ .Release.Namespace }}'
+      namespace: '{{ template "gatekeeper.namespace" . }}'
       path: /v1/admitlabel
   failurePolicy: {{ .Values.validatingWebhookCheckIgnoreFailurePolicy }}
   matchPolicy: Exact
@@ -100,7 +100,7 @@ webhooks:
     - key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}
+      - {{ template "gatekeeper.namespace" . }}
   rules:
   - apiGroups:
     - ""

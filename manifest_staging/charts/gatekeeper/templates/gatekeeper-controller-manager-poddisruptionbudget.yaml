@@ -10,7 +10,7 @@ metadata:
     heritage: '{{ .Release.Service }}'
     release: '{{ .Release.Name }}'
   name: gatekeeper-controller-manager
-  namespace: '{{ .Release.Namespace }}'
+  namespace: '{{ template "gatekeeper.namespace" . }}'
 spec:
   minAvailable: {{ .Values.pdb.controllerManager.minAvailable }}
   selector:

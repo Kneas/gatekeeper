@@ -108,7 +108,7 @@ var replacements = map[string]string{
 	"HELMSUBST_MUTATING_WEBHOOK_MATCHEXPRESSION_METADATANAME": `key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}`,
+      - {{ template "gatekeeper.namespace" . }}`,
 
 	"- HELMSUBST_MUTATING_WEBHOOK_EXEMPT_NAMESPACE_LABELS": `
     {{- range $key, $value := .Values.mutatingWebhookExemptNamespacesLabels}}
@@ -142,7 +142,7 @@ var replacements = map[string]string{
     {{- else }}
     service:
       name: gatekeeper-webhook-service
-      namespace: '{{ .Release.Namespace }}'
+      namespace: '{{ template "gatekeeper.namespace" . }}'
       path: /v1/mutate
     {{- end }}`,
 
@@ -157,7 +157,7 @@ var replacements = map[string]string{
 	"HELMSUBST_VALIDATING_WEBHOOK_MATCHEXPRESSION_METADATANAME": `key: kubernetes.io/metadata.name
       operator: NotIn
       values:
-      - {{ .Release.Namespace }}`,
+      - {{ template "gatekeeper.namespace" . }}`,
 
 	"- HELMSUBST_VALIDATING_WEBHOOK_EXEMPT_NAMESPACE_LABELS": `
     {{- range $key, $value := .Values.validatingWebhookExemptNamespacesLabels}}
@@ -178,7 +178,7 @@ var replacements = map[string]string{
     {{- else }}
     service:
       name: gatekeeper-webhook-service
-      namespace: '{{ .Release.Namespace }}'
+      namespace: '{{ template "gatekeeper.namespace" . }}'
       path: /v1/admit
     {{- end }}`,
 
